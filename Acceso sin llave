@@ -100,16 +100,20 @@ void Tarjetas(){
    if (((( rfid.uid.uidByte[0] ) == 182)) && ((( rfid.uid.uidByte[1] ) == 48)) && ((( rfid.uid.uidByte[2] ) == 0)) && ((( rfid.uid.uidByte[3] ) == 73)))
    { 
     //////meter boton
-       lcd.print("Bienvenido.");
-       lcd.setCursor(0,1);
-       lcd.print("Su ID ha sido comprobado y puede conducir");
-       delay(1000);
-             for (int positionCounter = 0; positionCounter < 25; positionCounter++) {
-                  lcd.scrollDisplayLeft();
-                  delay(250);
-                  }
-       delay(300);
-       lcd.clear();
+       lcd.print("Bienvenido. Su");
+        lcd.setCursor(0,1);
+        lcd.print("ID est");
+        lcd.createChar(1,customChar2);
+        lcd.setCursor(6,1);
+        lcd.write((byte)1);
+        delay(2000);
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("registrado y"); 
+        lcd.setCursor(0,1);
+        lcd.print("puede conducir");      
+        delay(2000);
+        lcd.clear();
        }
        
     else {
@@ -119,14 +123,13 @@ void Tarjetas(){
         lcd.createChar(1,customChar2);
         lcd.setCursor(9,1);
         lcd.write((byte)1);
-        lcd.setCursor(10,1);
-        delay(1000);
-        lcd.print(" registrado y no puede conducir");
-              for (int positionCounter = 0; positionCounter < 35; positionCounter++) {
-                   lcd.scrollDisplayLeft();
-                   delay(250);
-                   }
-        delay(200);
+        delay(2000);
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("registrado y no"); 
+        lcd.setCursor(0,1);
+        lcd.print("puede conducir");      
+        delay(2000);
         lcd.clear();
    Serial.println("");
   }
