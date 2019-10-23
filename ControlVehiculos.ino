@@ -118,14 +118,16 @@ void Tarjetas(){
         estado_actual = digitalRead(buttonPin);
         if(estado_actual == HIGH && contador == 1){
           digitalWrite(ledPin, HIGH); //Led encendido
-          lcd.print("Motor encendido");
+          lcd.print("Motor encendido.");
+          lcd.setCursor(0,1);
+          lcd.print("Tenga buen viaje");
           delay(3000);
           lcd.clear();
           contador--;
           }
          else if(estado_actual == HIGH && contador == 0){
           digitalWrite(ledPin, LOW); //Led apagado
-          lcd.print("Motor apagado");
+          lcd.print("Motor apagado.");
           delay(3000);
           lcd.clear();
           contador++;
@@ -137,13 +139,17 @@ void Tarjetas(){
         lcd.createChar(1,customChar2);
         lcd.setCursor(9,1);
         lcd.write((byte)1);
-        delay(3000);
+        delay(2500);
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("registrado y no"); 
         lcd.setCursor(0,1);
-        lcd.print("puede conducir");      
-        delay(3000);
+        lcd.print("puede conducir"); 
+        delay(2500);     
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("este coche.");
+        delay(2500);
         lcd.clear();
    Serial.println("");
   }
@@ -151,6 +157,7 @@ rfid.PICC_HaltA();
 rfid.PCD_StopCrypto1();
 }
 
+// función para sacar los TAGS en decimal de las  tarjetas RFID
 void printDec(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
