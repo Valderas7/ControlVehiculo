@@ -1,11 +1,14 @@
+// Incluimos librerías
 #include <SPI.h>   
 #include <MFRC522.h> 
 #include <LiquidCrystal.h>
 
+// Se definen los pines RESET y SS del lector RFID y los pines de la pantalla LCD
 #define SS_PIN 53 
 #define RST_PIN 6 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
+// Variables a utilizar
 int numero_serie[4];
 const int buttonPin = 8; //Pin del botón 
 int contador = 1;
@@ -104,26 +107,26 @@ void Tarjetas(){
         lcd.createChar(1,customChar2);
         lcd.setCursor(6,1);
         lcd.write((byte)1);
-        delay(2000);
+        delay(3000);
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("registrado y"); 
         lcd.setCursor(0,1);
         lcd.print("puede conducir");      
-        delay(2000);
+        delay(3000);
         lcd.clear();
         estado_actual = digitalRead(buttonPin);
         if(estado_actual == HIGH && contador == 1){
-          digitalWrite(ledPin, HIGH);
+          digitalWrite(ledPin, HIGH); //Led encendido
           lcd.print("Motor encendido");
-          delay(2000);
+          delay(3000);
           lcd.clear();
           contador--;
           }
          else if(estado_actual == HIGH && contador == 0){
-          digitalWrite(ledPin, LOW);
+          digitalWrite(ledPin, LOW); //Led apagado
           lcd.print("Motor apagado");
-          delay(2000);
+          delay(3000);
           lcd.clear();
           contador++;
           }}  
@@ -134,16 +137,17 @@ void Tarjetas(){
         lcd.createChar(1,customChar2);
         lcd.setCursor(9,1);
         lcd.write((byte)1);
-        delay(2000);
+        delay(3000);
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("registrado y no"); 
         lcd.setCursor(0,1);
         lcd.print("puede conducir");      
-        delay(2000);
+        delay(3000);
         lcd.clear();
    Serial.println("");
   }
+rfid.PICC_HaltA();
 rfid.PCD_StopCrypto1();
 }
 
