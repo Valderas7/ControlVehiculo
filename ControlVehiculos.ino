@@ -6,12 +6,12 @@
 #define RST_PIN 6 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
-int led1 = 30;
-int led2 = 31;
-int numero_serie[4]; 
-int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //E3 5D 41 C5        B6 30 00 49       86 F9 BE 32       
-int i=0;
-int contador=1;
+int numero_serie[4];
+const int buttonPin = 8; //Pin del botón 
+int contador = 1;
+int estado_actual = 0;
+const int ledPin = 13; //Pin del LED indicador del motor
+int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //E3 5D 41 C5; B6 30 00 49; 86 F9 BE 32 (3 TAGS)      
 MFRC522 rfid(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
@@ -48,9 +48,8 @@ byte customChar3[8] = { //í
 
 void setup()  {
   Serial.begin(9600);
-  pinMode(led1, OUTPUT);
-  pinMode(led2, OUTPUT);
-  pinMode(13, OUTPUT);
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
   lcd.begin(16, 2);
   SPI.begin(); 
   rfid.PCD_Init();  
@@ -98,9 +97,8 @@ void Tarjetas(){
   }
     
    if (((( rfid.uid.uidByte[0] ) == 182)) && ((( rfid.uid.uidByte[1] ) == 48)) && ((( rfid.uid.uidByte[2] ) == 0)) && ((( rfid.uid.uidByte[3] ) == 73)))
-   { 
-    //////meter boton
-       lcd.print("Bienvenido. Su");
+   {
+        lcd.print("Bienvenido. Su");
         lcd.setCursor(0,1);
         lcd.print("ID est");
         lcd.createChar(1,customChar2);
@@ -114,8 +112,21 @@ void Tarjetas(){
         lcd.print("puede conducir");      
         delay(2000);
         lcd.clear();
-       }
-       
+        estado_actual = digitalRead(buttonPin);
+        if(estado_actual == HIGH && contador == 1){
+          digitalWrite(ledPin, HIGH);
+          lcd.print("Motor encendido");
+          delay(2000);
+          lcd.clear();
+          contador--;
+          }
+         else if(estado_actual == HIGH && contador == 0){
+          digitalWrite(ledPin, LOW);
+          lcd.print("Motor apagado");
+          delay(2000);
+          lcd.clear();
+          contador++;
+          }}  
     else {
         lcd.print("Lo sentimos. Su");
         lcd.setCursor(0,1);
@@ -133,7 +144,6 @@ void Tarjetas(){
         lcd.clear();
    Serial.println("");
   }
-rfid.PICC_HaltA();
 rfid.PCD_StopCrypto1();
 }
 
