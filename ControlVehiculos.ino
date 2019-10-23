@@ -114,7 +114,13 @@ void Tarjetas(){
         lcd.setCursor(0,0);
         lcd.print("registrado y"); 
         lcd.setCursor(0,1);
-        lcd.print("puede conducir");      
+        lcd.print("puede acceder a");      
+        delay(3000);
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("conducir este");
+        lcd.setCursor(0,1);
+        lcd.print("coche");
         delay(3000);
         lcd.clear();
         estado_actual = digitalRead(buttonPin);
