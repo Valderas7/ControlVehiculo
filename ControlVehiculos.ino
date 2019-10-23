@@ -15,7 +15,7 @@ int contador = 1;
 int estado_actual = 0;
 const int ledPin = 13; //Pin del LED indicador del motor
 int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //E3 5D 41 C5; B6 30 00 49; 86 F9 BE 32 (3 TAGS)      
-MFRC522 rfid(SS_PIN, RST_PIN);
+MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de esta clase
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
 byte customChar[8] = { //é
@@ -49,6 +49,7 @@ byte customChar3[8] = { //í
     B00000
 };
 
+// Se inicia la tasa de comunicación y se inicializan pines de entrada, salida y librerías 
 void setup()  {
   Serial.begin(9600);
   pinMode(ledPin, OUTPUT);
@@ -61,6 +62,7 @@ void setup()  {
   }
 }
 
+// Se repite en bucle la función "Tarjetas"
 void loop(){
     Tarjetas();             
   }
@@ -74,7 +76,7 @@ void Tarjetas(){
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
   Serial.println(rfid.PICC_GetTypeName(piccType));
 
-  // Check is the PICC of Classic MIFARE type
+  // Comprobar si el TAG es del tipo MFRC522
   if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&  
     piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
     piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
@@ -88,7 +90,7 @@ void Tarjetas(){
     rfid.uid.uidByte[3] != nuidPICC[3] ) {
     Serial.println(F("Un nuevo tag ha sido detectado."));
 
-    // Store NUID into nuidPICC array
+    // Se almacenan los ID dentro del array nuidPICC
     for (byte i = 0; i < 4; i++) {
       nuidPICC[i] = rfid.uid.uidByte[i];
     }
@@ -157,7 +159,7 @@ rfid.PICC_HaltA();
 rfid.PCD_StopCrypto1();
 }
 
-// función para sacar los TAGS en decimal de las  tarjetas RFID
+// Función para sacar los TAGS en decimal de las  tarjetas RFID
 void printDec(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
