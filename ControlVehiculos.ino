@@ -14,20 +14,10 @@ const int buttonPin = 8; //Pin del botón
 int contador = 1;
 int estado_actual = 0;
 const int ledPin = 13; //Pin del LED indicador del motor
-int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //E3 5D 41 C5; B6 30 00 49; 86 F9 BE 32 (3 TAGS)      
+int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //En hex: E3 5D 41 C5; B6 30 00 49(éste es el que entra); 86 F9 BE 32   
 MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de esta clase
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
-byte customChar[8] = { //é
-    B00010,
-    B00100,
-    B01110,
-    B10001,
-    B11111,
-    B10000,
-    B01110,
-    B00000
-};
 byte customChar2[8] = { //á
     B00010,
     B00100,
@@ -36,16 +26,6 @@ byte customChar2[8] = { //á
     B01110,
     B10010,
     B01110,
-    B00000
-};
-byte customChar3[8] = { //í
-    B00000,
-    B00010,
-    B00100,
-    B00000,
-    B00100,
-    B00100,
-    B00100,
     B00000
 };
 
@@ -136,6 +116,8 @@ void Tarjetas(){
          else if(estado_actual == HIGH && contador == 0){
           digitalWrite(ledPin, LOW); //Led apagado
           lcd.print("Motor apagado.");
+          lcd.setCursor(0,1);
+          lcd.print("Salga del coche.");
           delay(3000);
           lcd.clear();
           contador++;
