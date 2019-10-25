@@ -14,7 +14,7 @@ const int buttonPin = 8; //Pin del botón
 int contador = 1;
 int estado_actual = 0;
 const int ledPin = 13; //Pin del LED indicador del motor
-int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //En hex: E3 5D 41 C5; B6 30 00 49(éste es el que entra); 86 F9 BE 32   
+int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} }; //En hex: E3 5D 41 C5; B6 30 00 49 (el que entra); 86 F9 BE 32   
 MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de esta clase
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
