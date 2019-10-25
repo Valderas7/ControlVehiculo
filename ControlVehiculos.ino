@@ -18,6 +18,16 @@ int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} };   //En hex
 MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de esta clase
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
+byte customChar[8] = { //í
+    B00000,
+    B00010,
+    B00100,
+    B00000,
+    B00100,
+    B00100,
+    B00100,
+    B00000
+};
 byte customChar2[8] = { //á
     B00010,
     B00100,
@@ -83,24 +93,30 @@ void Tarjetas(){
     
    if (((( rfid.uid.uidByte[0] ) == 182)) && ((( rfid.uid.uidByte[1] ) == 48)) && ((( rfid.uid.uidByte[2] ) == 0)) && ((( rfid.uid.uidByte[3] ) == 73)))
    {
-        lcd.print("Bienvenido. Su");
-        lcd.setCursor(0,1);
-        lcd.print("ID est");
+        lcd.setCursor(2,0);
+        lcd.print("Bienvenido.");
+        lcd.setCursor(2,1);
+        lcd.print("Su ID est");
         lcd.createChar(1,customChar2);
-        lcd.setCursor(6,1);
+        lcd.setCursor(11,1);
         lcd.write((byte)1);
         delay(3000);
         lcd.clear();
-        lcd.setCursor(0,0);
+        lcd.setCursor(2,0);
         lcd.print("registrado y"); 
         lcd.setCursor(0,1);
         lcd.print("puede acceder a");      
         delay(3000);
         lcd.clear();
-        lcd.setCursor(0,0);
+        lcd.setCursor(1,0);
         lcd.print("conducir este");
-        lcd.setCursor(0,1);
-        lcd.print("coche");
+        lcd.setCursor(3,1);
+        lcd.print("veh");
+        lcd.createChar(1,customChar);
+        lcd.setCursor(6,1);
+        lcd.write((byte)1);
+        lcd.setCursor(7,1);
+        lcd.print("culo.");
         delay(3000);
         lcd.clear();
         estado_actual = digitalRead(buttonPin);
