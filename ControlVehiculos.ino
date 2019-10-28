@@ -14,7 +14,7 @@ const int buttonPin = 8; //Pin del botón
 int contador = 1;
 int estado_actual = 0;
 const int ledPin = 13; //Pin del LED indicador del motor
-int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} }; //En hex: E3 5D 41 C5; B6 30 00 49 (el que entra); 86 F9 BE 32   
+int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} }; // En hex: E3 5D 41 C5; B6 30 00 49 (el que entra); 86 F9 BE 32   
 MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de esta clase
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
@@ -123,14 +123,15 @@ void Tarjetas(){
         if(estado_actual == HIGH && contador == 1){
           digitalWrite(ledPin, HIGH); //Led encendido
           lcd.print("Motor encendido.");
-          lcd.setCursor(0,1);
-          lcd.print("Tenga buen viaje");
+          lcd.setCursor(2,1);
+          lcd.print("Buen viaje.");
           delay(3000);
           lcd.clear();
           contador--;
           }
          else if(estado_actual == HIGH && contador == 0){
           digitalWrite(ledPin, LOW); //Led apagado
+          lcd.setCursor(1,0);
           lcd.print("Motor apagado.");
           lcd.setCursor(0,1);
           lcd.print("Salga del coche.");
@@ -139,23 +140,31 @@ void Tarjetas(){
           contador++;
           }}  
     else {
-        lcd.print("Lo sentimos. Su");
-        lcd.setCursor(0,1);
-        lcd.print("ID no est");
+        lcd.setCursor(2,0);
+        lcd.print("Lo sentimos.");
+        lcd.setCursor(1,1);
+        lcd.print("Su ID no est");
         lcd.createChar(1,customChar2);
-        lcd.setCursor(9,1);
+        lcd.setCursor(13,1);
         lcd.write((byte)1);
-        delay(2500);
+        delay(3000);
         lcd.clear();
-        lcd.setCursor(0,0);
+        lcd.setCursor(1,0);
         lcd.print("registrado y no"); 
-        lcd.setCursor(0,1);
-        lcd.print("puede conducir"); 
-        delay(2500);     
+        lcd.setCursor(1,1);
+        lcd.print("tiene acceso a"); 
+        delay(3000);     
         lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("este coche.");
-        delay(2500);
+        lcd.setCursor(1,0);
+        lcd.print("conducir este");
+        lcd.setCursor(3,1);
+        lcd.print("veh");
+        lcd.createChar(1,customChar);
+        lcd.setCursor(6,1);
+        lcd.write((byte)1);
+        lcd.setCursor(7,1);
+        lcd.print("culo.");
+        delay(3000);
         lcd.clear();
    Serial.println("");
   }
