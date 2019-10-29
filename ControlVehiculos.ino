@@ -14,7 +14,7 @@ const int buttonPin = 8; //Pin del botón
 int contador = 1;
 int estado_actual = 0;
 const int ledPin = 13; //Pin del LED indicador del motor
-int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} }; // En hex: E3 5D 41 C5; B6 30 00 49 (el que entra); 86 F9 BE 32   
+int usuario[3][4]={ {227,93,65,197},{182,48,0,73},{134,249,190,50} }; // {182,48,0,73} (el que entra)   
 MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de esta clase
 MFRC522::MIFARE_Key key;
 byte nuidPICC[4];
@@ -58,11 +58,11 @@ void loop(){
   }
   
 void Tarjetas(){ 
-    if ( ! rfid.PICC_IsNewCardPresent())
+    if ( ! rfid.PICC_IsNewCardPresent()) 
     return;
   if ( ! rfid.PICC_ReadCardSerial())
     return;
-  Serial.print(F("PICC type: "));
+  Serial.print(F("PICC type: ")); 
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
   Serial.println(rfid.PICC_GetTypeName(piccType));
 
@@ -92,14 +92,14 @@ void Tarjetas(){
   }
     
    if (((( rfid.uid.uidByte[0] ) == 182)) && ((( rfid.uid.uidByte[1] ) == 48)) && ((( rfid.uid.uidByte[2] ) == 0)) && ((( rfid.uid.uidByte[3] ) == 73)))
-   {
+   { // Si el ID es el que se especifica el usuario (conductor) puede acceder al vehículo
         lcd.setCursor(2,0);
         lcd.print("Bienvenido.");
         lcd.setCursor(2,1);
         lcd.print("Su ID est");
-        lcd.createChar(1,customChar2);
+        lcd.createChar(1,customChar2); // Se crea el caracter especial á
         lcd.setCursor(11,1);
-        lcd.write((byte)1);
+        lcd.write((byte)1); // Y se escribe
         delay(3000);
         lcd.clear();
         lcd.setCursor(2,0);
@@ -112,34 +112,34 @@ void Tarjetas(){
         lcd.print("conducir este");
         lcd.setCursor(3,1);
         lcd.print("veh");
-        lcd.createChar(1,customChar);
+        lcd.createChar(1,customChar); // Se crea el caracter especial í
         lcd.setCursor(6,1);
-        lcd.write((byte)1);
+        lcd.write((byte)1); // Y se escribe ese caracter especial
         lcd.setCursor(7,1);
         lcd.print("culo.");
         delay(3000);
         lcd.clear();
         estado_actual = digitalRead(buttonPin);
-        if(estado_actual == HIGH && contador == 1){
-          digitalWrite(ledPin, HIGH); //Led encendido
-          lcd.print("Motor encendido.");
-          lcd.setCursor(2,1);
-          lcd.print("Buen viaje.");
-          delay(3000);
-          lcd.clear();
-          contador--;
+        if(estado_actual == HIGH && contador == 1){ // Si se pulsa el botón y contador vale 1
+          digitalWrite(ledPin, HIGH); // Led encendido
+          lcd.print("Motor encendido."); // Imprimir mensaje por LCD
+          lcd.setCursor(2,1); // Posicionar cursor en columna 3, fila 1 del LCD
+          lcd.print("Buen viaje."); 
+          delay(3000); // Permanece 3s en pantalla el mensaje
+          lcd.clear(); // Se limpia pantalla
+          contador--; // Se disminuye el valor de contador a 0 para después apagarlo
           }
-         else if(estado_actual == HIGH && contador == 0){
-          digitalWrite(ledPin, LOW); //Led apagado
+         else if(estado_actual == HIGH && contador == 0){ // Si se pulsa el botón y contador vale 0
+          digitalWrite(ledPin, LOW); // Led apagado
           lcd.setCursor(1,0);
-          lcd.print("Motor apagado.");
+          lcd.print("Motor apagado."); 
           lcd.setCursor(0,1);
           lcd.print("Salga del coche.");
           delay(3000);
           lcd.clear();
           contador++;
           }}  
-    else {
+    else { // Si el ID no es el del conductor no se podrá acceder al vehículo
         lcd.setCursor(2,0);
         lcd.print("Lo sentimos.");
         lcd.setCursor(1,1);
