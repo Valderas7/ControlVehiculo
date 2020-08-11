@@ -172,7 +172,7 @@ rfid.PICC_HaltA();
 rfid.PCD_StopCrypto1();
 }
 
-// Función para sacar los TAGS en decimal de las  tarjetas RFID
+// Función para sacar los TAGS en decimal de las tarjetas RFID
 void printDec(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
